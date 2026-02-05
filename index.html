@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>希诺伟达生物工程集团</title>
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft Yahei', sans-serif;
+        }
+
+        /* 红黄主题色定义 - 核心修改：替换蓝绿为红黄 */
+        :root {
+            --primary-red: #E63946;    /* 主红色（醒目） */
+            --primary-yellow: #FFB703; /* 主黄色（活力） */
+            --dark-bg: #1F2937;        /* 深色背景（适配红黄） */
+            --light-bg: #F9FAFB;       /* 浅色背景 */
+            --text-dark: #111827;      /* 深色文字 */
+            --text-light: #F9FAFB;     /* 浅色文字 */
+            --gray: #6B7280;           /* 灰色 */
+            --card-shadow: 0 40px 48px rgba(230, 57, 70, 0.08); /* 红色系阴影 */
+        }
+
+        /* 全局字体放大 */
+        html {
+            font-size: 110%;
+        }
+
+        /* 导航栏样式 */
+        nav {
+            background-color: var(--dark-bg);
+            padding: 1rem 5%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--primary-yellow); /* 替换为黄色 */
+        }
+
+        /* 桌面端导航菜单 */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-yellow); /* hover变为黄色 */
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            /* 渐变替换为红黄 */
+            background: linear-gradient(to right, var(--primary-red), var(--primary-yellow));
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* 移动端汉堡菜单按钮 */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 0.3rem;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 50px;
+            height: 6px;
+            background-color: var(--text-light);
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+
+        /* Hero 横幅区域 - 移除红黄渐变背景，仅保留文字 */
+        .hero {
+            /* 移除背景渐变 */
+            background: transparent;
+            /* 文字改为红黄配色 */
+            color: var(--primary-red);
+            padding: 8rem 3%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 移除背景图片遮罩 */
+        .hero::before {
+            display: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            width: 100%;
+            text-align: center;
+            /* 字体放大至150% */
+            font-size: 150%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        /* 标题容器 */
+        .hero-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: none;
+            /* 标题文字渐变（红黄） */
+            background: linear-gradient(to right, var(--primary-red), var(--primary-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            text-shadow: none;
+            color: var(--text-dark);
+        }
+
+        /* 公司logo样式 */
+        .hero-logo {
+            flex: 0 0 auto;
+            width: 540px; /* 可根据实际logo大小调整 */
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        /* 按钮样式 - 适配红黄配色 */
+        .btn {
+            display: inline-block;
+            background: var(--text-light);
+            color: var(--primary-red); /* 文字为红色 */
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            background: var(--dark-bg); /* 深色背景 */
+            color: var(--primary-yellow); /* hover文字为黄色 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        /* 通用板块样式 */
+        section {
+            padding: 4rem 5%;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            /* 渐变替换为红黄 */
+            background: linear-gradient(to right, var(--primary-red), var(--primary-yellow));
+            border-radius: 2px;
+        }
+
+        /* 关于我们板块 */
+        .about {
+            background-color: var(--light-bg);
+        }
+
+        .about-container {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .about-img {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .about-img img {
+            width: 100%;
+            transition: transform 0.5s;
+        }
+
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-content {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .about-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .about-content h3 i {
+            color: var(--primary-yellow); /* 图标为黄色 */
+        }
+
+        .about-content p {
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+
+        /* 服务板块 */
+        .services {
+            background-color: white;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background-color: var(--light-bg);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s;
+            border-top: 4px solid transparent;
+            /* 渐变替换为红黄 */
+            border-image: linear-gradient(to right, var(--primary-red), var(--primary-yellow)) 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(230, 57, 70, 0.12); /* 红色系阴影 */
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-card h3 i {
+            color: var(--primary-red); /* 图标为红色 */
+            font-size: 1.8rem;
+        }
+
+        .service-card p {
+            line-height: 1.7;
+            color: var(--text-dark);
+            opacity: 0.8;
+        }
+
+        /* 联系我们板块样式 */
+        .contact-container {
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-form {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .contact-item i {
+            color: var(--primary-red); /* 图标为红色 */
+            font-size: 1.2rem;
+            margin-top: 0.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .footer-logo span {
+            color: var(--primary-yellow); /* 黄色高亮 */
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-yellow); /* hover为黄色 */
+        }
+
+        .copyright {
+            margin-top: 1rem;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* 响应式媒体查询 */
+        @media (max-width: 768px) {
+            /* 隐藏桌面导航，显示汉堡菜单 */
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                flex-direction: column;
+                background-color: var(--dark-bg);
+                width: 100%;
+                padding: 2rem 5%;
+                transition: left 0.3s;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            /* 调整Hero区域 */
+            .hero {
+                padding: 4rem 5%;
+            }
+
+            .hero-content {
+                font-size: 150%;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.2rem;
+            }
+
+            /* 移动端logo调整 */
+            .hero-logo {
+                width: 120px;
+            }
+
+            /* 调整板块内边距 */
+            section {
+                padding: 2rem 5%;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    <!-- 引入图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">希诺伟达<span>生物工程集团</span></a>
+            <!-- 桌面端导航链接 -->
+            <div class="nav-links">
+                <a href="#home">首页</a>
+                <a href="#about">关于我们</a>
+                <a href="#services">我们的服务</a>
+                <a href="#contact">联系我们</a>
+            </div>
+            <!-- 移动端汉堡菜单 -->
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero 横幅区域 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>专注生物工程</h1>
+                <p>我们提供一站式的生物工程解决方案，助力快速实现数字化升级，降本增效，提升核心竞争力</p>
+                <a href="#contact" class="btn">立即咨询</a>
+            </div>
+            <!-- 公司logo -->
+            <img src="公司logo.jpg" alt="希诺伟达生物工程集团logo" class="hero-logo">
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="about" id="about">
+        <h2 class="section-title">关于我们</h2>
+        <div class="about-container">
+            <div class="about-img">
+                <img src="实验室.jpg" alt="实验室">
+            </div>
+            <div class="about-content">
+                <h3><i class="fas fa-building"></i> 多年深耕，只为更好服务</h3>
+                <p>希诺伟达集团公司（sinovita  sin发韧于2014年创立于美丽泉城济南的济南达信生物科技有限公司，目前已拓展为包括六家分公司的集团公司。
+公司已加入北京大学分子工程苏南研究院、北京大学生命科学华东产业研究院，先后获得了济南“5150”项目人才创业资助，科技部科技型中小型企业认定，国家人社部人员留学归国资助，并获得山东省创新科技活动大赛、优秀企业奖等一系列荣誉和奖项。
+公司业务遍及海内外正逐步发展。公司主要业务是生物科学、生物医学和农林牧渔业三大细分领域，包括生命科学研究用仪器和试剂、医疗设备和诊断试剂等产品和技术的研发、生产及营销推广。
+现与国外百余家生物科技公司和国内数百家客户保持着良好的业务合作关系，产品已外销至香港、台湾、东南亚和北美。
+目前公司已建立了海外商城，已聘请外籍专家多名，包括巴基斯坦科学院和第三世界科学院shakoori院士以及外籍博士后多名，业务蓬勃发展，经营状况良好，员工数量不断增加，技术团队也不断增强。业务遍及海内外。</p>
+                <a href="#services" class="btn">了解我们的服务</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 我们的服务 -->
+    <section class="services" id="services">
+        <h2 class="section-title">我们的服务</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3><i class="fas fa-globe"></i> 农业微生物肥料研发</h3>
+                <p>农业微生物肥料研发与新型益生菌的研发</p>
+            </div>
+            <div class="service-card">
+                <h3><i class="fas fa-desktop"></i> 免疫检测产品研发</h3>
+                <p>免疫检测系列产品研发</p>
+            </div>
+            <div class="service-card">
+                <h3><i class="fas fa-chart-line"></i> 技术产品服务</h3>
+                <p>提供技术产品（服务）</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="contact" id="contact">
+        <h2 class="section-title">联系我们</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3><i class="fas fa-phone-alt"></i> 随时为你解答疑问</h3>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>公司地址</h4>
+                        <p>广州市黄埔区永和街道碧桂园星悦广场五号楼</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>邮箱地址</h4>
+                        <p>papers@sinovita.com.cn</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="name">您的姓名</label>
+                        <input type="text" id="name" placeholder="请输入姓名" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">联系电话</label>
+                        <input type="tel" id="phone" placeholder="请输入手机号" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">咨询内容</label>
+                        <textarea id="message" placeholder="请简要描述您的需求"></textarea>
+                    </div>
+                    <button type="submit" class="btn">提交咨询</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-logo">希诺伟达<span>生物工程集团</span></div>
+        <div class="footer-links">
+            <a href="#home">首页</a>
+            <a href="#about">关于我们</a>
+            <a href="#services">我们的服务</a>
+            <a href="#contact">联系我们</a>
+        </div>
+        <p>© 2014 希诺伟达生物工程集团 版权所有</p>
+        <p class="copyright">京ICP备12345678号-1</p>
+    </footer>
+
+    <!-- 移动端汉堡菜单交互JS -->
+    <script>
+        // 获取汉堡菜单和导航链接元素
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        // 点击汉堡菜单切换导航显示/隐藏
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        });
+
+        // 点击导航链接后关闭移动端菜单
+        const links = document.querySelectorAll('.nav-links a');
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                hamburger.classList.remove('active');
+            });
+        });
+
+        // 表单提交简单处理
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('咨询信息提交成功！我们会尽快与您联系');
+            form.reset();
+        });
+    </script>
+</body>
+</html>
